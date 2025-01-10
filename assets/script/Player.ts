@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Quat, tween, Vec3 } from 'cc';
+import { _decorator, BoxCollider, Component, ICollisionEvent, Node, Quat, tween, Vec3 } from 'cc';
 import { DataManager } from './DataManager';
 const { ccclass, property } = _decorator;
 
@@ -7,30 +7,41 @@ export class Player extends Component {
     @property({ type: [Node] })
     wheels: Node[] = [];
     @property({ type: Node })
-    velocity: Node = null
-    start() {
+    velocity: Node = null;
 
+    start() {
+        let t = this;
+        let collider = t.velocity.getComponent(BoxCollider);
+        collider.on('onCollisionEnter', t.onCollision, t);
+        collider.on('onCollisionStay', t.onCollision, t);
+        // collider.on('onCollisionExit', t.onCollision, t);
     }
-    tempCheck: boolean = false;
+
+
+    private onCollision(event: ICollisionEvent) {
+        console.log(event.type, event);
+    }
+
+
     getPositionSeeking(targetPositon: Vec3) {
         // target positon is world position
         let t = this;
-        if (DataManager.instance.isStop) { return }
-        if (DataManager.instance.speed == 0) {
-            if (!t.tempCheck) {
-                t.tempCheck = true;
-                let moto = t.node.getChildByName("Feyado 2015 Pelaautuxu 1000 S Green");
-                tween(moto)
-                    .to(0.5, {
-                        eulerAngles: new Vec3(0, 0, 0)
-                    })
-                    .start();
-            }
-        } else {
-            t.tempCheck = false;
-        }
+        // if (DataManager.instance.isStop) { return }
+        // if (DataManager.instance.speed == 0) {
+        //     if (!t.tempCheck) {
+        //         t.tempCheck = true;
+        //         let moto = t.node.getChildByName("Feyado 2015 Pelaautuxu 1000 S Green");
+        //         tween(moto)
+        //             .to(0.5, {
+        //                 eulerAngles: new Vec3(0, 0, 0)
+        //             })
+        //             .start();
+        //     }
+        // } else {
+        //     t.tempCheck = false;
+        // }
         let desired = new Vec3();
-        let speed = 0.075;
+        let speed = DataManager.instance.speed/100;
         //  (DataManager.instance.speed / 1300)      // reduce speed coincide pixel map 0.075
         // if (t.isBot && DataManager.instance.speed != 0) {
         //     speed = t.numberS
