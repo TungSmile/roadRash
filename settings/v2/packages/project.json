@@ -1,0 +1,10 @@
+{
+  "physics": {
+    "gravity": {
+      "y": -10
+    },
+    "defaultMaterial": {
+      "restitution": 0.1
+    }
+  }
+}
