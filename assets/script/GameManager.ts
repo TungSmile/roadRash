@@ -1,14 +1,19 @@
-import { _decorator, Component, Input, KeyCode, Node } from 'cc';
+import { _decorator, Component, Input, KeyCode, Node, Quat, Vec3 } from 'cc';
 import { DataManager } from './DataManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
 export class GameManager extends Component {
 
+    @property({ type: [Node] })
+    wheels: Node[] = [];
+
+
+
     start() {
         let t = this;
         t.node.on(Input.EventType.KEY_DOWN, t.pressBtn, t)
-
+        t.eventStartGame()
     }
 
     pressBtn(e) {
@@ -28,6 +33,28 @@ export class GameManager extends Component {
                 break;
         }
     }
+
+    eventStartGame() {
+        let t = this;
+
+        // event for wheel blade
+        t.schedule(t.aroundWheel, 0.01);
+
+    }
+
+
+    aroundWheel() {
+        let t = this;
+        for (let i = 0; i < t.wheels.length; i++) {
+            let wheel = t.wheels[i];
+            let tempQuat = Quat.fromAxisAngle(new Quat, new Vec3(0, 1, 0), 0.0157 / 2) // 1.57 = 90 degree = 1 around
+            wheel.rotate(tempQuat);
+        }
+    }
+
+
+     
+
 
 
 

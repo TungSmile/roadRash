@@ -1,4 +1,4 @@
-import { _decorator, BoxCollider, Component, ICollisionEvent, ITriggerEvent, Node, Quat, RigidBody, tween, Vec3 } from 'cc';
+import { _decorator, BoxCollider, Component, ITriggerEvent, Node, Quat, RigidBody, Vec3 } from 'cc';
 import { DataManager } from './DataManager';
 const { ccclass, property } = _decorator;
 
@@ -22,27 +22,41 @@ export class Player extends Component {
         // collider.on('onTriggerStay', t.onCollision, t);
         // collider.on('onTriggerExit', t.onCollision, t);
         t.nextPointPosition = t.startPosition.getWorldPosition(new Vec3);
-        t.schedule(() => {
-            t.getPositionSeeking();
-        }, 0.0015)
+        t.schedule(() => { t.getPositionSeeking() }, 0.0015)
     }
 
 
     private onCollision(event: ITriggerEvent) {
         let t = this;
-        t.countPoint++;
-        console.log(event.otherCollider.node.name);
         let temp = event.otherCollider.node;
-        if (temp.getComponent(RigidBody) && temp.getComponent(RigidBody).isAwake) {
-            DataManager.instance.isStop = true;
-            return;
-        }
-        if (t.countPoint > 21) {
-            DataManager.instance.isStop = true;
-            return;
-        }
-        t.nextPointPosition = t.road.getChildByName(t.countPoint.toString()).getWorldPosition(new Vec3);
+        console.log(temp.name);
 
+        if (!temp.getComponent(RigidBody)
+            // && temp.getComponent(RigidBody).enabled
+        ) {
+            // t.node.getComponent(RigidBody).enabled = true;
+            // DataManager.instance.isStop = true;
+            console.log("???-");
+            return;
+        }
+        // sovle event collider by moto
+        switch (temp.name) {
+            case "Cube":
+                t.countPoint = Number(temp.parent.name) + 1;
+                console.log(t.countPoint, "???");
+                if (t.countPoint >= t.road.children.length) {
+                    DataManager.instance.isStop = true;
+                    return;
+                }
+                t.nextPointPosition = t.road.getChildByName(t.countPoint.toString()).getWorldPosition(new Vec3);
+                break;
+            case "fanBlades":
+                DataManager.instance.isStop = true;
+                break;
+            default:
+                break;
+        }
+        console.log(t.nextPointPosition);
 
     }
 
@@ -50,8 +64,12 @@ export class Player extends Component {
     getPositionSeeking() {
         // target positon is world position
         let t = this;
-        t.nextPointPosition
+        // animation tire 
+        t.spinWheels(DataManager.instance.speed);
         if (DataManager.instance.isStop) { return }
+        if (t.countPoint >= t.road.children.length) { return }
+        t.nextPointPosition = t.road.getChildByName(t.countPoint.toString()).getWorldPosition(new Vec3);
+        // console.log(t.nextPointPosition);
         // if (DataManager.instance.speed == 0) {
         //     if (!t.tempCheck) {
         //         t.tempCheck = true;
@@ -66,7 +84,10 @@ export class Player extends Component {
         //     t.tempCheck = false;
         // }
         let desired = new Vec3();
-        let speed = 0.075
+
+        let speed = 0.1
+        // speed fake
+
         // DataManager.instance.speed / 100;
         //  (DataManager.instance.speed / 1300)      // reduce speed coincide pixel map 0.075
         // if (t.isBot && DataManager.instance.speed != 0) {
@@ -85,7 +106,6 @@ export class Player extends Component {
             // t.node.setWorldPosition(t.nextPointPosition);
             // t.countPoint++;
             // console.log('a');
-
             // DataManager.instance.point++;
             return
         }
@@ -108,8 +128,7 @@ export class Player extends Component {
         eulerAngles.y = eulerAngles.y - 180;
         t.node.setRotation(Quat.fromEuler(new Quat, eulerAngles.x, eulerAngles.y, eulerAngles.z));
         t.node.position = steering;
-        // animation tire 
-        // t.spinWheels(DataManager.instance.speed)
+
 
     }
     spinWheels(around: number) {
