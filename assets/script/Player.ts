@@ -19,8 +19,7 @@ export class Player extends Component {
         let t = this;
         let collider = t.velocity.getComponent(BoxCollider);
         collider.on('onTriggerEnter', t.onCollision, t);
-        // collider.on('onTriggerStay', t.onCollision, t);
-        // collider.on('onTriggerExit', t.onCollision, t);
+        
         t.nextPointPosition = t.startPosition.getWorldPosition(new Vec3);
         t.schedule(() => { t.getPositionSeeking() }, 0.0015)
     }
@@ -52,6 +51,9 @@ export class Player extends Component {
                 break;
             case "fanBlades":
                 DataManager.instance.isStop = true;
+                t.node.getComponent(RigidBody).enabled = true;
+                t.node.getComponent(BoxCollider).enabled = true;
+
                 break;
             default:
                 break;
@@ -83,8 +85,8 @@ export class Player extends Component {
         // } else {
         //     t.tempCheck = false;
         // }
-        let desired = new Vec3();
 
+        let desired = new Vec3();
         let speed = 0.1
         // speed fake
 
@@ -118,7 +120,7 @@ export class Player extends Component {
         // get velocity before it change position
         let velocity = t.velocity.getWorldPosition(new Vec3);
         let steering = new Vec3();
-        Vec3.lerp(steering, desired, velocity, 0.1);
+        Vec3.lerp(steering, desired, velocity, 0.12);
         // t.seek.position = desired
         // auto orientation to desired
         let up = new Vec3(0, 1, 0);
@@ -140,6 +142,7 @@ export class Player extends Component {
         }
     }
     update(deltaTime: number) {
+       
 
     }
 }
