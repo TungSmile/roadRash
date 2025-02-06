@@ -19,7 +19,10 @@ export class DataManager extends Component {
     public lap: number = 0;
     public countPoint: number = 0;
     public ready: boolean = false;
-    public isStop: boolean = false;
+    public isStop: boolean = true;
     public endGame: boolean = false;
+    public isTurn: boolean = false;
+    public turnRight: boolean = false;
+
 }
 

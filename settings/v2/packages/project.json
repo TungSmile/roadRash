@@ -4,7 +4,31 @@
       "y": -10
     },
     "defaultMaterial": {
-      "restitution": 1
+      "restitution": 1,
+      "friction": 0.5,
+      "spinningFriction": 1,
+      "rollingFriction": 1
+    },
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "velocity"
+      },
+      {
+        "index": 2,
+        "name": "obstacle"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 5,
+      "1": 2,
+      "2": 1
+    }
+  },
+  "general": {
+    "designResolution": {
+      "height": 960,
+      "width": 640
     }
   }
 }

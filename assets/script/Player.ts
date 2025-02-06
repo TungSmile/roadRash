@@ -19,7 +19,7 @@ export class Player extends Component {
         let t = this;
         let collider = t.velocity.getComponent(BoxCollider);
         collider.on('onTriggerEnter', t.onCollision, t);
-        
+        // t.node.getChildByName("Bike 1").getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t);
         t.nextPointPosition = t.startPosition.getWorldPosition(new Vec3);
         t.schedule(() => { t.getPositionSeeking() }, 0.0015)
     }
@@ -49,19 +49,45 @@ export class Player extends Component {
                 }
                 t.nextPointPosition = t.road.getChildByName(t.countPoint.toString()).getWorldPosition(new Vec3);
                 break;
-            case "fanBlades":
-                DataManager.instance.isStop = true;
-                t.node.getComponent(RigidBody).enabled = true;
-                t.node.getComponent(BoxCollider).enabled = true;
+            // case "fanBlades":
+            //     DataManager.instance.isStop = true;
+            //     t.node.getComponent(RigidBody).enabled = true;
+            //     t.node.getComponent(BoxCollider).enabled = true;
+            //     console.log("a");
 
-                break;
+            //     break;
+            // case "Cube":
+            //     t.countPoint = Number(temp.parent.name) + 1;
+            //     console.log(t.countPoint, "???");
+            //     if (t.countPoint >= t.road.children.length) {
+            //         DataManager.instance.isStop = true;
+            //         return;
+            //     }
+            //     t.nextPointPosition = t.road.getChildByName(t.countPoint.toString()).getWorldPosition(new Vec3);
+            //     break;
             default:
+
                 break;
         }
         console.log(t.nextPointPosition);
 
     }
 
+    private getObstalce(event: ITriggerEvent) {
+        let t = this;
+        let temp = event.otherCollider.node;
+        if (!temp.getComponent(RigidBody)) {
+            return;
+        }
+
+        switch (temp.name) {
+            case "fanBlades":
+                DataManager.instance.isStop = true;
+                break;
+            default:
+                break;
+        }
+    }
 
     getPositionSeeking() {
         // target positon is world position
@@ -120,7 +146,7 @@ export class Player extends Component {
         // get velocity before it change position
         let velocity = t.velocity.getWorldPosition(new Vec3);
         let steering = new Vec3();
-        Vec3.lerp(steering, desired, velocity, 0.12);
+        Vec3.lerp(steering, desired, velocity, 0.1);
         // t.seek.position = desired
         // auto orientation to desired
         let up = new Vec3(0, 1, 0);
@@ -130,6 +156,22 @@ export class Player extends Component {
         eulerAngles.y = eulerAngles.y - 180;
         t.node.setRotation(Quat.fromEuler(new Quat, eulerAngles.x, eulerAngles.y, eulerAngles.z));
         t.node.position = steering;
+
+
+        // driff
+        let moto = t.node.getChildByName("Bike 1");
+        if (DataManager.instance.isTurn) {
+            let xAsis = moto.position.x + (DataManager.instance.turnRight ? -0.1 : 0.1);
+            moto.setRotationFromEuler(new Vec3(0, DataManager.instance.turnRight ? -1 : 1, 0))
+            if (-5 < xAsis && xAsis < 5) {
+                moto.setPosition(new Vec3(xAsis, 0, 0))
+            }
+
+        } else {
+            moto.setRotationFromEuler(new Vec3(0, 0, 0))
+
+        }
+
 
 
     }
@@ -142,8 +184,9 @@ export class Player extends Component {
         }
     }
     update(deltaTime: number) {
-       
 
     }
+
+
 }
 
