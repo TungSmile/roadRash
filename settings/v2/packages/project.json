@@ -13,17 +13,14 @@
       {
         "index": 1,
         "name": "velocity"
-      },
-      {
-        "index": 2,
-        "name": "obstacle"
       }
     ],
     "collisionMatrix": {
       "0": 1,
       "1": 2,
       "2": 4
-    }
+    },
+    "allowSleep": true
   },
   "general": {
     "designResolution": {

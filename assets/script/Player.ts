@@ -1,4 +1,4 @@
-import { _decorator, BoxCollider, Component, ITriggerEvent, Node, Quat, RigidBody, Vec3 } from 'cc';
+import { _decorator, BoxCollider, Component, ITriggerEvent, Node, physics, Quat, RigidBody, Vec3 } from 'cc';
 import { DataManager } from './DataManager';
 const { ccclass, property } = _decorator;
 
@@ -19,6 +19,7 @@ export class Player extends Component {
         let t = this;
         let collider = t.velocity.getComponent(BoxCollider);
         collider.on('onTriggerEnter', t.onCollision, t);
+        t.node.getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t)
         // t.node.getChildByName("Bike 1").getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t);
         t.nextPointPosition = t.startPosition.getWorldPosition(new Vec3);
         t.schedule(() => { t.getPositionSeeking() }, 0.0015)
@@ -49,13 +50,16 @@ export class Player extends Component {
                 }
                 t.nextPointPosition = t.road.getChildByName(t.countPoint.toString()).getWorldPosition(new Vec3);
                 break;
+            case "skittle":
+                // DataManager.instance.isStop = true;
+                t.node.getComponent(RigidBody).type = RigidBody.Type.DYNAMIC;
+
+                console.log("a");
+
+                break;
             // case "fanBlades":
             //     DataManager.instance.isStop = true;
-            //     t.node.getComponent(RigidBody).enabled = true;
-            //     t.node.getComponent(BoxCollider).enabled = true;
-            //     console.log("a");
-
-            //     break;
+            //     break
             // case "Cube":
             //     t.countPoint = Number(temp.parent.name) + 1;
             //     console.log(t.countPoint, "???");
@@ -113,7 +117,7 @@ export class Player extends Component {
         // }
 
         let desired = new Vec3();
-        let speed = 0.1
+        let speed = 0.01
         // speed fake
 
         // DataManager.instance.speed / 100;
@@ -146,7 +150,7 @@ export class Player extends Component {
         // get velocity before it change position
         let velocity = t.velocity.getWorldPosition(new Vec3);
         let steering = new Vec3();
-        Vec3.lerp(steering, desired, velocity, 0.12);
+        Vec3.lerp(steering, desired, velocity, 0.1);
         // t.seek.position = desired
         // auto orientation to desired
         let up = new Vec3(0, 1, 0);
@@ -168,7 +172,6 @@ export class Player extends Component {
             }
         } else {
             moto.setRotationFromEuler(new Vec3(0, 0, 0));
-
         }
 
 
