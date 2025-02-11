@@ -160,9 +160,9 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 216.76,
-      "y": 129.428,
-      "z": 64.706
+      "x": 214.884,
+      "y": 119.436,
+      "z": -224.623
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -329,7 +329,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 214.883,
-      "y": 87.656,
+      "y": 88,
       "z": -306.897
     },
     "_lrot": {
@@ -3552,7 +3552,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": 0.377,
       "z": 2.5
     },
     "_lrot": {
@@ -4971,7 +4971,7 @@
       "__type__": "cc.Vec3",
       "x": 216,
       "y": 88,
-      "z": -293.049
+      "z": -269.663
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -14857,13 +14857,13 @@
     "_center": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0.5,
+      "y": 0.6,
       "z": 0
     },
     "_size": {
       "__type__": "cc.Vec3",
-      "x": 0.5,
-      "y": 1.2,
+      "x": 0.4,
+      "y": 1,
       "z": 1.8
     },
     "_id": "8b1hypK2FPJIvqFPPu5FSn"
@@ -23485,7 +23485,7 @@
       "__id__": 428
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 704
@@ -23500,8 +23500,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 215.477,
-      "y": 88.092,
+      "x": 215.373,
+      "y": 88,
       "z": -274.711
     },
     "_lrot": {
@@ -23589,8 +23589,8 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_group": 4,
-    "_type": 1,
+    "_group": 1,
+    "_type": 2,
     "_mass": 1,
     "_allowSleep": true,
     "_linearDamping": 0.1,
@@ -23878,7 +23878,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 320,
-      "y": 480,
+      "y": 480.00000000000006,
       "z": 0
     },
     "_lrot": {
@@ -23959,7 +23959,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 480,
+    "_orthoHeight": 480.00000000000006,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -24540,8 +24540,8 @@
     "_target": null,
     "_left": 0,
     "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
+    "_top": 5.684341886080802e-14,
+    "_bottom": 5.684341886080802e-14,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
