@@ -47,7 +47,7 @@ export class GameManager extends Component {
         let t = this;
         for (let i = 0; i < t.wheels.length; i++) {
             let wheel = t.wheels[i];
-            let tempQuat = Quat.fromAxisAngle(new Quat, new Vec3(0, 1, 0), 0.0157 / 2) // 1.57 = 90 degree = 1 around
+            let tempQuat = Quat.fromAxisAngle(new Quat, new Vec3(0, 1, 0), 0.0157 / 5) // 1.57 = 90 degree = 1 around
             wheel.rotate(tempQuat);
         }
     }

@@ -19,7 +19,7 @@ export class Player extends Component {
         let t = this;
         let collider = t.velocity.getComponent(BoxCollider);
         collider.on('onTriggerEnter', t.onCollision, t);
-        t.node.getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t)
+        // t.node.getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t)
         // t.node.getChildByName("Bike 1").getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t);
         t.nextPointPosition = t.startPosition.getWorldPosition(new Vec3);
         t.schedule(() => { t.getPositionSeeking() }, 0.0015)
@@ -50,13 +50,11 @@ export class Player extends Component {
                 }
                 t.nextPointPosition = t.road.getChildByName(t.countPoint.toString()).getWorldPosition(new Vec3);
                 break;
-            case "skittle":
-                // DataManager.instance.isStop = true;
-                t.node.getComponent(RigidBody).type = RigidBody.Type.DYNAMIC;
-
-                console.log("a");
-
-                break;
+            // case "skittle":
+            //     // DataManager.instance.isStop = true;
+            //     t.node.getComponent(RigidBody).type = RigidBody.Type.DYNAMIC;
+            //     console.log("a");
+            //     break;
             // case "fanBlades":
             //     DataManager.instance.isStop = true;
             //     break
@@ -146,7 +144,7 @@ export class Player extends Component {
         desired.x = positionMoto.x + deltaX * scale;
         desired.y = positionMoto.y + deltaY * scale;
         desired.z = positionMoto.z + deltaZ * scale;
-        if (scale == 0) { return }
+        if (scale == 0) { return; }
         // get velocity before it change position
         let velocity = t.velocity.getWorldPosition(new Vec3);
         let steering = new Vec3();
@@ -163,18 +161,16 @@ export class Player extends Component {
 
 
         // driff
-        let moto = t.node.getChildByName("Bike 1");
-        if (DataManager.instance.isTurn) {
-            let xAsis = moto.position.x + (DataManager.instance.turnRight ? -0.1 : 0.1);
-            moto.setRotationFromEuler(new Vec3(0, DataManager.instance.turnRight ? -1 : 1, 0));
-            if (-5 < xAsis && xAsis < 5) {
-                moto.setPosition(new Vec3(xAsis, 0, 0));
-            }
-        } else {
-            moto.setRotationFromEuler(new Vec3(0, 0, 0));
-        }
-
-
+        // let moto = t.node.getChildByName("Bike 1");
+        // if (DataManager.instance.isTurn) {
+        //     let xAsis = moto.position.x + (DataManager.instance.turnRight ? -0.1 : 0.1);
+        //     moto.setRotationFromEuler(new Vec3(0, DataManager.instance.turnRight ? -1 : 1, 0));
+        //     if (-5 < xAsis && xAsis < 5) {
+        //         moto.setPosition(new Vec3(xAsis, 0, 0));
+        //     }
+        // } else {
+        //     moto.setRotationFromEuler(new Vec3(0, 0, 0));
+        // }
 
     }
     spinWheels(around: number) {
