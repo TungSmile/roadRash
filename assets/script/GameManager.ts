@@ -1,4 +1,4 @@
-import { _decorator, Component, Input, KeyCode, Node, Quat, Vec3 } from 'cc';
+import { _decorator, Color, Component, Input, KeyCode, MeshRenderer, Node, Quat, Vec3 } from 'cc';
 import { DataManager } from './DataManager';
 const { ccclass, property } = _decorator;
 
@@ -9,11 +9,10 @@ export class GameManager extends Component {
     wheels: Node[] = [];
 
 
-
     start() {
         let t = this;
         t.node.on(Input.EventType.KEY_DOWN, t.pressBtn, t)
-        t.eventStartGame()
+        t.eventStartGame();
     }
 
     pressBtn(e) {
@@ -37,8 +36,14 @@ export class GameManager extends Component {
     eventStartGame() {
         let t = this;
 
-        // event for wheel blade
+        // event for wheel blade normal 0.1-0.05
         t.schedule(t.aroundWheel, 0.01);
+
+    }
+
+
+    testtranspent() {
+        let t = this;
 
     }
 
@@ -53,7 +58,7 @@ export class GameManager extends Component {
     }
 
 
-     
+
 
 
 

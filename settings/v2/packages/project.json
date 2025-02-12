@@ -13,12 +13,26 @@
       {
         "index": 1,
         "name": "velocity"
+      },
+      {
+        "index": 2,
+        "name": "body"
+      },
+      {
+        "index": 3,
+        "name": "obstacle"
+      },
+      {
+        "index": 4,
+        "name": "planet"
       }
     ],
     "collisionMatrix": {
       "0": 1,
       "1": 2,
-      "2": 4
+      "2": 24,
+      "3": 4,
+      "4": 4
     },
     "allowSleep": true
   },
