@@ -1,4 +1,4 @@
-import { _decorator, BoxCollider, Component, ITriggerEvent, Node, physics, Quat, RigidBody, Vec3 } from 'cc';
+import { _decorator, BoxCollider, Component, ITriggerEvent, math, Node, physics, Quat, RigidBody, Vec3 } from 'cc';
 import { DataManager } from './DataManager';
 const { ccclass, property } = _decorator;
 
@@ -16,23 +16,31 @@ export class Player extends Component {
     startPosition: Node = null;
 
 
+    // pboblem : no smooth
+    // sovle : no seek for posion , seek rotatio and just change z 
+    // => planet have scope all , not good
+    // => rigi with collider not good because restitution cant fix
+
+
 
 
     start() {
         let t = this;
         let collider = t.velocity.getComponent(BoxCollider);
+        let time =
+            // 1
+        0.0015
         collider.on('onTriggerEnter', t.onCollision, t);
         // t.node.getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t)
         // t.node.getChildByName("Bike 1").getComponent(BoxCollider).on('onTriggerEnter', t.getObstalce, t);
         t.nextPointPosition = t.startPosition.getWorldPosition(new Vec3);
-        t.schedule(() => { t.getPositionSeeking() }, 0.0015)
+        t.schedule(() => { t.getPositionSeeking() }, time)
     }
 
 
     onCollision(event: ITriggerEvent) {
         let t = this;
         let temp = event.otherCollider.node;
-
         if (!temp.getComponent(RigidBody)) {
             // t.node.getComponent(RigidBody).enabled = true;
             // DataManager.instance.isStop = true;
@@ -43,7 +51,7 @@ export class Player extends Component {
         switch (temp.name) {
             case "Cube":
                 t.countPoint = Number(temp.parent.name) + 1;
-                console.log(t.countPoint, "???");
+                console.log(t.node.position, "check");
                 if (t.countPoint >= t.road.children.length) {
                     DataManager.instance.isStop = true;
                     return;
@@ -108,7 +116,25 @@ export class Player extends Component {
             default:
                 break;
         }
+    }
 
+    testRigi() {
+        let t = this;
+        let rigi = t.node.getComponent(RigidBody)
+        if (DataManager.instance.isStop) {
+            return;
+        } else {
+            // funtion isnot smooth
+            // rigi.setLinearVelocity(new math.Vec3(0, 0, 2))
+            rigi.applyForce(new math.Vec3(0, 0, 10));
+            // rigi.applyImpulse(new math.Vec3(0, 0, 20));
+            // xoay
+            // rigi.applyTorque(new math.Vec3(0, 0, 20));
+
+            console.log("run");
+
+            return;
+        }
     }
 
 
@@ -116,6 +142,8 @@ export class Player extends Component {
     getPositionSeeking() {
 
         let t = this;
+
+
         // animation tire 
         t.spinWheels(DataManager.instance.speed);
         // check are running
@@ -139,7 +167,7 @@ export class Player extends Component {
         if (distanceSqr === 0 || (speed >= 0 && distanceSqr < speed * speed)) {
             return
         }
-        
+
         const distance = Math.sqrt(distanceSqr);
         const scale = speed / distance;
         desired.x = positionMoto.x + deltaX * scale;
@@ -149,7 +177,7 @@ export class Player extends Component {
         // get velocity before it change position
         let velocity = t.velocity.getWorldPosition(new Vec3);
         let steering = new Vec3();
-        Vec3.lerp(steering, desired, velocity, 0.1);
+        Vec3.lerp(steering, desired, velocity, 0.12);
         // t.seek.position = desired
         // auto orientation to desired
         let up = new Vec3(0, 1, 0);
@@ -183,7 +211,6 @@ export class Player extends Component {
         }
     }
     update(deltaTime: number) {
-
     }
 
 

@@ -34,7 +34,8 @@
       "3": 4,
       "4": 4
     },
-    "allowSleep": true
+    "allowSleep": true,
+    "autoSimulation": true
   },
   "general": {
     "designResolution": {
